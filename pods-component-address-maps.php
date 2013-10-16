@@ -51,7 +51,7 @@ function pods_component_address_maps_load () {
 
 function pods_component_address_maps_reset () {
     delete_transient( 'pods_components' );
-    delete_transient( 'pods_field_types ' );
+    delete_transient( 'pods_field_types' );
 }
 
 function pods_map ( $args ) {
