@@ -119,7 +119,7 @@ class PodsField_Address_Map extends PodsField {
 			),
 			self::$type . '_address_state_input' => array(
 				'label' => __( 'State Input Type', 'pods' ),
-				'depends-on' => array( self::$type . '_address_state' => true ),
+				'depends-on' => array( self::$type . '_address_state' => true, self::$type . '_type' => 'address' ),
 				'default' => 'text',
 				'type' => 'pick',
 				'data' => array(
@@ -129,7 +129,7 @@ class PodsField_Address_Map extends PodsField {
 			),
 			self::$type . '_address_country_input' => array(
 				'label' => __( 'Country Input Type', 'pods' ),
-				'depends-on' => array( self::$type . '_address_country' => true ),
+				'depends-on' => array( self::$type . '_address_country' => true, self::$type . '_type' => 'address' ),
 				'default' => 'text',
 				'type' => 'pick',
 				'data' => array(
