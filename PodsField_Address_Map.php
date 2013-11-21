@@ -269,9 +269,6 @@ class PodsField_Address_Map extends PodsField {
 	public function input ( $name, $value = null, $options = null, $pod = null, $id = null ) {
 		$form_field_type = PodsForm::$field_type;
 
-		if ( is_array( $value ) )
-			$value = implode( ' ', $value );
-
 		$field = PODS_DIR . 'ui/fields/text.php';
 		if ( 'address' == pods_v( self::$type . '_type', $options ) ) {
 			$field = self::$file_path . 'ui/fields/address.php';
@@ -304,18 +301,11 @@ class PodsField_Address_Map extends PodsField {
 	 * @since 1.0
 	 */
 	public function validate ( $value, $name = null, $options = null, $fields = null, $pod = null, $id = null, $params = null ) {
+		// TODO: Validate based on address type ( lat / lon, address fields)
 		$errors = array();
 
-		$check = $this->pre_save( $value, $id, $name, $options, $fields, $pod, $params );
-
-		if ( is_array( $check ) )
-			$errors = $check;
-		else {
-			if ( 0 < strlen( $value ) && strlen( $check ) < 1 ) {
-				if ( 1 == pods_v( 'required', $options ) )
-					$errors[ ] = __( 'This field is required.', 'pods' );
-			}
-		}
+		if ( 1 == pods_v( 'required', $options ) )
+			$errors[ ] = __( 'This field is required.', 'pods' );
 
 		if ( !empty( $errors ) )
 			return $errors;
@@ -338,7 +328,6 @@ class PodsField_Address_Map extends PodsField {
 	 * @since 1.0
 	 */
 	public function pre_save ( $value, $id = null, $name = null, $options = null, $fields = null, $pod = null, $params = null ) {
-		$value = $this->strip_html( $value, $options );
 
 		return $value;
 	}
