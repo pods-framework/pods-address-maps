@@ -226,7 +226,7 @@ class PodsField_Address_Map extends PodsField {
 	}
 
 	/**
-	 * Change the way the value of the field is displayed with Pods::get
+	 * Change the output of the field displayed with Pods::display
 	 *
 	 * @param mixed $value
 	 * @param string $name
@@ -238,10 +238,19 @@ class PodsField_Address_Map extends PodsField {
 	 * @since 1.0
 	 */
 	public function display ( $value = null, $name = null, $options = null, $pod = null, $id = null ) {
-		$value = $this->strip_html( $value, $options );
+		$display_type = pods_v( self::$type . '_display_type', $options );
+		$view = self::$file_path . 'ui/front/address.php';
+		if ( 'lat-long' == $display_type ) {
+			$view = self::$file_path . 'ui/front/lat-long.php';
+		}
+		elseif ( 'address-map' == $display_type ) {
+			$view = self::$file_path . 'ui/front/address-map.php';
 
-		if ( 1 == pods_v( 'text_allow_shortcode', $options ) )
-			$value = do_shortcode( $value );
+		}
+		elseif ( 'map' == $display_type ) {
+			$view = self::$file_path . 'ui/front/map.php';
+		}
+		$value = pods_view( $view, compact( array_keys( get_defined_vars() ) ), false, 'cache', true );
 
 		return $value;
 	}
