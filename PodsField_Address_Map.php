@@ -61,6 +61,7 @@ class PodsField_Address_Map extends PodsField {
 			self::$component_options = PodsComponent_AddressMaps::$options;
 
 			wp_register_style( 'pods-component-address-maps', plugins_url( '/ui/css/pods-address-maps.css', __FILE__ ), array(), '1.0' );
+			wp_register_script( 'pods-component-address-maps', plugins_url( '/ui/js/pods-address-maps.js', __FILE__ ), array(), '1.0' );
 			wp_register_script( 'googlemaps', 'http://maps.googleapis.com/maps/api/js?sensor=false', false, '3' );
 		}
 	}
@@ -245,7 +246,7 @@ class PodsField_Address_Map extends PodsField {
 	}
 
 	/**
-     * {@inheritDoc}
+	 * {@inheritDoc}
 	 *
 	 * @since 1.0
 	 */
