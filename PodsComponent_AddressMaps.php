@@ -21,7 +21,7 @@ class PodsComponent_AddressMaps extends PodsComponent {
     static $options;
 
     /**
-     * Do things like register/enqueue scripts and stylesheets
+     * {@inheritDoc}
      *
      * @since 1.0
      */
@@ -53,11 +53,8 @@ class PodsComponent_AddressMaps extends PodsComponent {
     }
 
     /**
-     * Add options and set defaults for component settings, shows in admin area
-     *
-     * @param $settings
-     *
-     * @return array
+     * {@inheritDoc}
+	 *
      * @since 1.0
      */
     public function options ( $settings ) {
@@ -133,9 +130,7 @@ class PodsComponent_AddressMaps extends PodsComponent {
     }
 
     /**
-     * Handler to run code based on $options
-     *
-     * @param $options
+     * {@inheritDoc}
      *
      * @since 1.0
      */

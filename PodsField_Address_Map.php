@@ -50,7 +50,7 @@ class PodsField_Address_Map extends PodsField {
 	public static $component_options = array();
 
 	/**
-	 * Do things like register/enqueue scripts and stylesheets
+	 * {@inheritDoc}
 	 *
 	 * @since 1.0
 	 */
@@ -66,9 +66,8 @@ class PodsField_Address_Map extends PodsField {
 	}
 
 	/**
-	 * Add options and set defaults to
+	 * {@inheritDoc}
 	 *
-	 * @return array
 	 * @since 1.0
 	 */
 	public function options () {
@@ -212,11 +211,8 @@ class PodsField_Address_Map extends PodsField {
 	}
 
 	/**
-	 * Define the current field's schema for DB table storage
+	 * {@inheritDoc}
 	 *
-	 * @param array $options
-	 *
-	 * @return array
 	 * @since 1.0
 	 */
 	public function schema ( $options = null ) {
@@ -226,15 +222,8 @@ class PodsField_Address_Map extends PodsField {
 	}
 
 	/**
-	 * Change the output of the field displayed with Pods::display
+	 * {@inheritDoc}
 	 *
-	 * @param mixed $value
-	 * @param string $name
-	 * @param array $options
-	 * @param array $pod
-	 * @param int $id
-	 *
-	 * @return mixed|null|string
 	 * @since 1.0
 	 */
 	public function display ( $value = null, $name = null, $options = null, $pod = null, $id = null ) {
@@ -256,13 +245,7 @@ class PodsField_Address_Map extends PodsField {
 	}
 
 	/**
-	 * Customize output of the form field
-	 *
-	 * @param string $name
-	 * @param mixed $value
-	 * @param array $options
-	 * @param array $pod
-	 * @param int $id
+     * {@inheritDoc}
 	 *
 	 * @since 1.0
 	 */
@@ -286,18 +269,7 @@ class PodsField_Address_Map extends PodsField {
 	}
 
 	/**
-	 * Validate a value before it's saved
-	 *
-	 * @param mixed $value
-	 * @param string $name
-	 * @param array $options
-	 * @param array $fields
-	 * @param array $pod
-	 * @param int $id
-	 *
-	 * @param null $params
-	 *
-	 * @return array|bool
+	 * {@inheritDoc}
 	 * @since 1.0
 	 */
 	public function validate ( $value, $name = null, $options = null, $fields = null, $pod = null, $id = null, $params = null ) {
@@ -314,17 +286,8 @@ class PodsField_Address_Map extends PodsField {
 	}
 
 	/**
-	 * Change the value or perform actions after validation but before saving to the DB
+	 * {@inheritDoc}
 	 *
-	 * @param mixed $value
-	 * @param int $id
-	 * @param string $name
-	 * @param array $options
-	 * @param array $fields
-	 * @param array $pod
-	 * @param object $params
-	 *
-	 * @return mixed|string
 	 * @since 1.0
 	 */
 	public function pre_save ( $value, $id = null, $name = null, $options = null, $fields = null, $pod = null, $params = null ) {
@@ -333,23 +296,11 @@ class PodsField_Address_Map extends PodsField {
 	}
 
 	/**
-	 * Customize the Pods UI manage table column output
+	 * {@inheritDoc}
 	 *
-	 * @param int $id
-	 * @param mixed $value
-	 * @param string $name
-	 * @param array $options
-	 * @param array $fields
-	 * @param array $pod
-	 *
-	 * @return mixed|string
 	 * @since 1.0
 	 */
 	public function ui ( $id, $value, $name = null, $options = null, $fields = null, $pod = null ) {
-		$value = $this->strip_html( $value, $options );
-
-		if ( 0 == pods_v( 'text_allow_html', $options, 0, true ) )
-			$value = wp_trim_words( $value );
 
 		return $value;
 	}
@@ -567,16 +518,4 @@ class PodsField_Address_Map extends PodsField {
 		return $address;
 	}
 
-	/**
-	 * @todo stub function, finish it up
-	 *
-	 * @param $value
-	 * @param $options
-	 *
-	 * @return mixed
-	 */
-	public function strip_html ( $value, $options ) {
-		return $value;
-
-	}
 }
