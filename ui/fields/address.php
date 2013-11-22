@@ -23,7 +23,7 @@ $attributes = PodsForm::merge_attributes( $attributes, $name, $form_field_type, 
 <?php if ( pods_v( $form_field_type . '_address_state', $options ) ): ?>
 	<?php echo PodsForm::label( $name . '[address][state]', 'State / Province' ) ?>
 	<?php if ( 'pick' == pods_v( $form_field_type . '_address_state_input', $options ) ): ?>
-		<?php echo PodsForm::field( $name . '[address][state]', pods_v( 'state', $value ), 'pick', [ 'pick_object' => 'us_state' ] ) ?>
+		<?php echo PodsForm::field( $name . '[address][state]', pods_v( 'state', $value ), 'pick', array( 'pick_object' => 'us_state' ) ) ?>
 	<?php else: ?>
 		<?php echo PodsForm::field( $name . '[address][state]', pods_v( 'state', $value ), 'text', $options ) ?>
 	<?php endif ?>
@@ -33,7 +33,7 @@ $attributes = PodsForm::merge_attributes( $attributes, $name, $form_field_type, 
 	<?php echo PodsForm::label( $name . '[address][country]', 'Country' ) ?>
 
 	<?php if ( 'pick' == pods_v( $form_field_type . '_address_country_input', $options ) ): ?>
-		<?php echo PodsForm::field( $name . '[address][country]', pods_v( 'country', $value ), 'pick', [ 'pick_object' => 'country' ] ) ?>
+		<?php echo PodsForm::field( $name . '[address][country]', pods_v( 'country', $value ), 'pick', array( 'pick_object' => 'country' ) ) ?>
 	<?php else: ?>
 		<?php echo PodsForm::field( $name . '[address][country]', pods_v( 'country', $value ), 'text', $options ) ?>
 	<?php endif ?>
