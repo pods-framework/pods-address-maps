@@ -1,5 +1,5 @@
 <?php
-class PodsField_Address_Map extends PodsField {
+class Pods_Field_AddressMap extends Pods_Field {
 
 	/**
 	 * Field Type Group
@@ -55,10 +55,10 @@ class PodsField_Address_Map extends PodsField {
 	 * @since 1.0
 	 */
 	public function __construct () {
-		if ( class_exists( 'PodsComponent_AddressMaps' ) && !empty( PodsComponent_AddressMaps::$options ) ) {
-			self::$file_path = PodsComponent_AddressMaps::$component_path;
+		if ( class_exists( 'Pods_Component_AddressMaps' ) && !empty( Pods_Component_AddressMaps::$options ) ) {
+			self::$file_path = Pods_Component_AddressMaps::$component_path;
 
-			self::$component_options = PodsComponent_AddressMaps::$options;
+			self::$component_options = Pods_Component_AddressMaps::$options;
 
 			wp_register_style( 'pods-component-address-maps', plugins_url( '/ui/css/pods-address-maps.css', __FILE__ ), array(), '1.0' );
 			wp_register_script( 'pods-component-address-maps', plugins_url( '/ui/js/pods-address-maps.js', __FILE__ ), array(), '1.0' );
@@ -251,7 +251,7 @@ class PodsField_Address_Map extends PodsField {
 	 * @since 1.0
 	 */
 	public function input ( $name, $value = null, $options = null, $pod = null, $id = null ) {
-		$form_field_type = PodsForm::$field_type;
+		$form_field_type = Pods_Form::$field_type;
 
 		$field = PODS_DIR . 'ui/fields/text.php';
 		if ( 'address' == pods_v( self::$type . '_type', $options ) ) {

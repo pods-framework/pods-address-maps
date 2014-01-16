@@ -12,7 +12,7 @@
  *
  * Class: PodsComponent_AddressMaps
  */
-class PodsComponent_AddressMaps extends PodsComponent {
+class Pods_Component_AddressMaps extends Pods_Component {
 
 	static $component_path;
 

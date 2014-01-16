@@ -33,20 +33,21 @@ function pods_component_address_maps_init () {
 
     pods_component_address_maps_load();
 
-    add_filter( 'pods_components_register', array( 'PodsComponent_AddressMaps', 'component_register' ) );
+    add_filter( 'pods_components_register', array( 'Pods_Component_AddressMaps', 'component_register' ) );
 }
 
 function pods_component_address_maps_load () {
-    $component_path = plugin_dir_path( __FILE__ );
-    $component_file = $component_path . 'PodsComponent_AddressMaps.php';
+	$component_path = plugin_dir_path( __FILE__ );
+	$classLoader = new Pods_ClassLoader();
+	$classLoader->addDirectory($component_path . '/src');
+	$classLoader->register();
+    $component_file = $component_path . 'Pods/Component/AddressMaps.php';
 
-    require_once( $component_file );
-
-    PodsComponent_AddressMaps::$component_path = $component_path;
-    PodsComponent_AddressMaps::$component_file = $component_file;
+    Pods_Component_AddressMaps::$component_path = $component_path;
+    Pods_Component_AddressMaps::$component_file = $component_file;
 
     // Only load as needed
-    pods_register_field_type( 'address_map', $component_path . 'PodsField_Address_Map.php' );
+    pods_register_field_type( 'addressmap', $component_path . 'Pods_Field_AddressMap.php' );
 }
 
 function pods_component_address_maps_reset () {
@@ -55,6 +56,6 @@ function pods_component_address_maps_reset () {
 }
 
 function pods_map ( $args ) {
-    return PodsForm::field_method( 'address_map', 'map', $args );
+    return Pods_Form::field_method( 'address_map', 'map', $args );
 }
 add_shortcode( 'pods-map', 'pods_map' );
