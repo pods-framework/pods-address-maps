@@ -3,18 +3,18 @@ wp_enqueue_script( 'googlemaps' );
 wp_enqueue_style( 'pods-component-address-maps' );
 
 $attributes = array();
-$attributes = PodsForm::merge_attributes( $attributes, $name, $form_field_type, $options );
+$attributes = Pods_Form::merge_attributes( $attributes, $name, $form_field_type, $options );
 ?>
 <div id="<?php echo $attributes[ 'id' ] . '-map-canvas' ?>" class="pods-address-maps-map-canvas"></div>
 
-<?php echo PodsForm::label( $name . '-map-lookup-address', 'Address to lookup:' ) ?>
-<?php echo PodsForm::field( $name . '-map-lookup-address', '', 'text' ) ?>
+<?php echo Pods_Form::label( $name . '-map-lookup-address', 'Address to lookup:' ) ?>
+<?php echo Pods_Form::field( $name . '-map-lookup-address', '', 'text' ) ?>
 <input type="button" name="<?php echo $attributes[ 'id' ] . '-map-lookup-button' ?>" id="<?php echo $attributes[ 'id' ] . '-map-lookup-button' ?>" value="Lookup Location from Address" />
-<?php echo PodsForm::label( $name . '-map-lookup-lat', 'Latitude' ) ?>
-<?php echo PodsForm::field( $name . '-map-lookup-lat', '', 'text', array( 'read_only' => 1 ) ) ?>
+<?php echo Pods_Form::label( $name . '-map-lookup-lat', 'Latitude' ) ?>
+<?php echo Pods_Form::field( $name . '-map-lookup-lat', '', 'text', array( 'read_only' => 1 ) ) ?>
 
-<?php echo PodsForm::label( $name . '-map-lookup-lon', 'Longitude' ) ?>
-<?php echo PodsForm::field( $name . '-map-lookup-lon', '', 'text', array( 'read_only' => 1 ) ) ?>
+<?php echo Pods_Form::label( $name . '-map-lookup-lon', 'Longitude' ) ?>
+<?php echo Pods_Form::field( $name . '-map-lookup-lon', '', 'text', array( 'read_only' => 1 ) ) ?>
 <script type="text/javascript">
 	jQuery( document ).ready( function ( $ ) {
 		var mapDiv = document.getElementById( '<?php echo $attributes['id']  . '-map-canvas'?>' );
