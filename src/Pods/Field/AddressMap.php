@@ -1,522 +1,533 @@
 <?php
-class Pods_Field_AddressMap extends Pods_Field {
 
-	/**
-	 * Field Type Group
-	 *
-	 * @var string
-	 * @since 1.0
-	 */
-	public static $group = 'Text';
+	class Pods_Field_AddressMap extends Pods_Field {
 
-	/**
-	 * Field Type Identifier
-	 *
-	 * @var string
-	 * @since 1.0
-	 */
-	public static $type = 'address_map';
+		/**
+		 * Field Type Group
+		 *
+		 * @var string
+		 * @since 1.0
+		 */
+		public static $group = 'Text';
 
-	/**
-	 * Field Type Label
-	 *
-	 * @var string
-	 * @since 1.0
-	 */
-	public static $label = 'Address / Map';
+		/**
+		 * Field Type Identifier
+		 *
+		 * @var string
+		 * @since 1.0
+		 */
+		public static $type = 'address_map';
 
-	/**
-	 * Field Type Preparation
-	 *
-	 * @var string
-	 * @since 1.0
-	 */
-	public static $prepare = '%s';
+		/**
+		 * Field Type Label
+		 *
+		 * @var string
+		 * @since 1.0
+		 */
+		public static $label = 'Address / Map';
 
-	/**
-	 * File path to related files of this field type
-	 *
-	 * @var string
-	 * @since 1.0
-	 */
-	public static $file_path = '';
+		/**
+		 * Field Type Preparation
+		 *
+		 * @var string
+		 * @since 1.0
+		 */
+		public static $prepare = '%s';
 
-	/**
-	 * Maps Component Options
-	 *
-	 * @var array
-	 * @since 1.0
-	 */
-	public static $component_options = array();
+		/**
+		 * File path to related files of this field type
+		 *
+		 * @var string
+		 * @since 1.0
+		 */
+		public static $file_path = '';
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @since 1.0
-	 */
-	public function __construct () {
-		if ( class_exists( 'Pods_Component_AddressMaps' ) && !empty( Pods_Component_AddressMaps::$options ) ) {
-			self::$file_path = Pods_Component_AddressMaps::$component_path;
+		/**
+		 * Maps Component Options
+		 *
+		 * @var array
+		 * @since 1.0
+		 */
+		public static $component_options = array();
 
-			self::$component_options = Pods_Component_AddressMaps::$options;
+		/**
+		 * {@inheritDoc}
+		 *
+		 * @since 1.0
+		 */
+		public function __construct() {
+			if ( class_exists( 'Pods_Component_AddressMaps' ) && ! empty( Pods_Component_AddressMaps::$options ) ) {
+				self::$file_path = Pods_Component_AddressMaps::$component_path;
 
-			wp_register_style( 'pods-component-address-maps', plugins_url( '/ui/css/pods-address-maps.css', __FILE__ ), array(), '1.0' );
-			wp_register_script( 'pods-component-address-maps', plugins_url( '/ui/js/pods-address-maps.js', __FILE__ ), array(), '1.0' );
-			wp_register_script( 'googlemaps', 'http://maps.googleapis.com/maps/api/js?sensor=false', false, '3' );
+				self::$component_options = Pods_Component_AddressMaps::$options;
+
+				wp_register_style( 'pods-component-address-maps', plugins_url( '/ui/css/pods-address-maps.css', __FILE__ ), array(), '1.0' );
+				wp_register_script( 'pods-component-address-maps', plugins_url( '/ui/js/pods-address-maps.js', __FILE__ ), array(), '1.0' );
+				wp_register_script( 'googlemaps', 'http://maps.googleapis.com/maps/api/js?sensor=false', false, '3' );
+			}
 		}
-	}
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @since 1.0
-	 */
-	public function options () {
-		$options = array(
-			self::$type . '_type' => array(
-				'label' => __( 'Address Type', 'pods' ),
-				'default' => 'address',
-				'type' => 'pick',
-				'data' => array(
-					'address' => __( 'Address Field Group', 'pods' ),
-					'text' => __( 'Freeform Text', 'pods' ),
-					'lat-long' => __( 'Latitude / Longitude', 'pods' )
+		/**
+		 * {@inheritDoc}
+		 *
+		 * @since 1.0
+		 */
+		public function options() {
+			$options = array(
+				self::$type . '_type'                  => array(
+					'label'      => __( 'Address Type', 'pods' ),
+					'default'    => 'address',
+					'type'       => 'pick',
+					'data'       => array(
+						'address'  => __( 'Address Field Group', 'pods' ),
+						'text'     => __( 'Freeform Text', 'pods' ),
+						'lat-long' => __( 'Latitude / Longitude', 'pods' )
+					),
+					'dependency' => true
 				),
-				'dependency' => true
-			),
-			self::$type . '_address_options' => array(
-				'label' => __( 'Address Options', 'pods' ),
-				'depends-on' => array( self::$type . '_type' => 'address' ),
-				'group' => array(
-					self::$type . '_address_line_1' => array(
-						'label' => __( 'Enable Address Line 1', 'pods' ),
-						'default' => 1,
-						'type' => 'boolean'
+				self::$type . '_address_options'       => array(
+					'label'      => __( 'Address Options', 'pods' ),
+					'depends-on' => array( self::$type . '_type' => 'address' ),
+					'group'      => array(
+						self::$type . '_address_line_1'  => array(
+							'label'   => __( 'Enable Address Line 1', 'pods' ),
+							'default' => 1,
+							'type'    => 'boolean'
+						),
+						self::$type . '_address_line_2'  => array(
+							'label'   => __( 'Enable Address Line 2', 'pods' ),
+							'default' => 0,
+							'type'    => 'boolean'
+						),
+						self::$type . '_address_city'    => array(
+							'label'   => __( 'Enable City', 'pods' ),
+							'default' => 1,
+							'type'    => 'boolean'
+						),
+						self::$type . '_address_state'   => array(
+							'label'      => __( 'Enable State / Province', 'pods' ),
+							'default'    => 1,
+							'type'       => 'boolean',
+							'dependency' => true
+						),
+						self::$type . '_address_country' => array(
+							'label'      => __( 'Enable Country', 'pods' ),
+							'default'    => 0,
+							'type'       => 'boolean',
+							'dependency' => true
+						)
+					)
+				),
+				self::$type . '_address_state_input'   => array(
+					'label'      => __( 'State Input Type', 'pods' ),
+					'depends-on' => array( self::$type . '_address_state' => true, self::$type . '_type' => 'address' ),
+					'default'    => 'text',
+					'type'       => 'pick',
+					'data'       => array(
+						'text' => __( 'Freeform Text', 'pods' ),
+						'pick' => __( 'Drop-down Select Box', 'pods' )
 					),
-					self::$type . '_address_line_2' => array(
-						'label' => __( 'Enable Address Line 2', 'pods' ),
-						'default' => 0,
-						'type' => 'boolean'
+				),
+				self::$type . '_address_country_input' => array(
+					'label'      => __( 'Country Input Type', 'pods' ),
+					'depends-on' => array( self::$type . '_address_country' => true, self::$type . '_type' => 'address' ),
+					'default'    => 'text',
+					'type'       => 'pick',
+					'data'       => array(
+						'text' => __( 'Freeform Text', 'pods' ),
+						'pick' => __( 'Drop-down Select Box', 'pods' )
 					),
-					self::$type . '_address_city' => array(
-						'label' => __( 'Enable City', 'pods' ),
-						'default' => 1,
-						'type' => 'boolean'
+				),
+				self::$type . '_autocorrect'           => array(
+					'label'      => __( 'Autocorrect Address during save', 'pods' ),
+					'depends-on' => array( self::$type . '_display_type' => array( 'single', 'multi' ) ),
+					'default'    => 0,
+					'type'       => 'boolean'
+				),
+				self::$type . '_show_map_input'        => array(
+					'label'   => __( 'Show Map below Input', 'pods' ),
+					'default' => 0,
+					'type'    => 'boolean'
+				),
+				self::$type . '_display_type'          => array(
+					'label'      => __( 'Display Type', 'pods' ),
+					'default'    => 'address',
+					'type'       => 'pick',
+					'data'       => array(
+						'map'         => __( 'Map', 'pods' ),
+						'address-map' => __( 'Address and Map', 'pods' ),
+						'address'     => __( 'Address', 'pods' ),
+						'lat-long'    => __( 'Latitude, Longitude', 'pods' )
 					),
-					self::$type . '_address_state' => array(
-						'label' => __( 'Enable State / Province', 'pods' ),
-						'default' => 1,
-						'type' => 'boolean',
-						'dependency' => true
-					),
-					self::$type . '_address_country' => array(
-						'label' => __( 'Enable Country', 'pods' ),
-						'default' => 0,
-						'type' => 'boolean',
-						'dependency' => true
+					'dependency' => true
+				),
+				self::$type . '_style'                 => array(
+					'label'      => __( 'Map Output Type', 'pods' ),
+					'depends-on' => array( self::$type . '_display_type' => array( 'map', 'address-map' ) ),
+					'default'    => pods_v( self::$type . '_style', self::$component_options, 'static', true ),
+					'type'       => 'pick',
+					'data'       => array(
+						'static' => __( 'Static (Image)', 'pods' ),
+						'js'     => __( 'Javascript (Interactive)', 'pods' )
+					)
+				),
+				self::$type . '_type_of_map'           => array(
+					'label'      => __( 'Map Type', 'pods' ),
+					'depends-on' => array( self::$type . '_display_type' => array( 'map', 'address-map' ) ),
+					'default'    => pods_v( self::$type . '_type', self::$component_options, 'roadmap', true ),
+					'type'       => 'pick',
+					'data'       => array(
+						'roadmap'   => __( 'Roadmap', 'pods' ),
+						'satellite' => __( 'Satellite', 'pods' ),
+						'terrain'   => __( 'Terrain', 'pods' ),
+						'hybrid'    => __( 'Hybrid', 'pods' )
+					)
+				),
+				self::$type . '_zoom'                  => array(
+					'label'      => __( 'Map Zoom Level', 'pods' ),
+					'depends-on' => array( self::$type . '_display_type' => array( 'map', 'address-map' ) ),
+					'help'       => array( __( 'Google Maps has documentation on the different zoom levels you can use.', 'pods' ), 'https://developers.google.com/maps/documentation/staticmaps/#Zoomlevels' ),
+					'default'    => pods_v( self::$type . '_zoom', self::$component_options, 12, true ),
+					'type'       => 'number',
+					'options'    => array(
+						'number_decimals'   => 0,
+						'number_max_length' => 2
+					)
+				),
+				self::$type . '_marker'                => array(
+					'label'      => __( 'Map Custom Marker', 'pods' ),
+					'depends-on' => array( self::$type . '_display_type' => array( 'map', 'address-map' ) ),
+					'default'    => pods_v( self::$type . '_marker', self::$component_options ),
+					'type'       => 'file',
+					'options'    => array(
+						'file_uploader'          => 'plupload',
+						'file_edit_title'        => 0,
+						'file_restrict_filesize' => '1MB',
+						'file_type'              => 'images',
+						'file_add_button'        => 'Upload Marker Icon'
 					)
 				)
-			),
-			self::$type . '_address_state_input' => array(
-				'label' => __( 'State Input Type', 'pods' ),
-				'depends-on' => array( self::$type . '_address_state' => true, self::$type . '_type' => 'address' ),
-				'default' => 'text',
-				'type' => 'pick',
-				'data' => array(
-					'text' => __( 'Freeform Text', 'pods' ),
-					'pick' => __( 'Drop-down Select Box', 'pods' )
-				),
-			),
-			self::$type . '_address_country_input' => array(
-				'label' => __( 'Country Input Type', 'pods' ),
-				'depends-on' => array( self::$type . '_address_country' => true, self::$type . '_type' => 'address' ),
-				'default' => 'text',
-				'type' => 'pick',
-				'data' => array(
-					'text' => __( 'Freeform Text', 'pods' ),
-					'pick' => __( 'Drop-down Select Box', 'pods' )
-				),
-			),
-			self::$type . '_autocorrect' => array(
-				'label' => __( 'Autocorrect Address during save', 'pods' ),
-				'depends-on' => array( self::$type . '_display_type' => array( 'single', 'multi' ) ),
-				'default' => 0,
-				'type' => 'boolean'
-			),
-			self::$type . '_show_map_input' => array(
-				'label' => __( 'Show Map below Input', 'pods' ),
-				'default' => 0,
-				'type' => 'boolean'
-			),
-			self::$type . '_display_type' => array(
-				'label' => __( 'Display Type', 'pods' ),
-				'default' => 'address',
-				'type' => 'pick',
-				'data' => array(
-					'map' => __( 'Map', 'pods' ),
-					'address-map' => __( 'Address and Map', 'pods' ),
-					'address' => __( 'Address', 'pods' ),
-					'lat-long' => __( 'Latitude, Longitude', 'pods' )
-				),
-				'dependency' => true
-			),
-			self::$type . '_style' => array(
-				'label' => __( 'Map Output Type', 'pods' ),
-				'depends-on' => array( self::$type . '_display_type' => array( 'map', 'address-map' ) ),
-				'default' => pods_v( self::$type . '_style', self::$component_options, 'static', true ),
-				'type' => 'pick',
-				'data' => array(
-					'static' => __( 'Static (Image)', 'pods' ),
-					'js' => __( 'Javascript (Interactive)', 'pods' )
-				)
-			),
-			self::$type . '_type_of_map' => array(
-				'label' => __( 'Map Type', 'pods' ),
-				'depends-on' => array( self::$type . '_display_type' => array( 'map', 'address-map' ) ),
-				'default' => pods_v( self::$type . '_type', self::$component_options, 'roadmap', true ),
-				'type' => 'pick',
-				'data' => array(
-					'roadmap' => __( 'Roadmap', 'pods' ),
-					'satellite' => __( 'Satellite', 'pods' ),
-					'terrain' => __( 'Terrain', 'pods' ),
-					'hybrid' => __( 'Hybrid', 'pods' )
-				)
-			),
-			self::$type . '_zoom' => array(
-				'label' => __( 'Map Zoom Level', 'pods' ),
-				'depends-on' => array( self::$type . '_display_type' => array( 'map', 'address-map' ) ),
-				'help' => array( __( 'Google Maps has documentation on the different zoom levels you can use.', 'pods' ), 'https://developers.google.com/maps/documentation/staticmaps/#Zoomlevels' ),
-				'default' => pods_v( self::$type . '_zoom', self::$component_options, 12, true ),
-				'type' => 'number',
-				'options' => array(
-					'number_decimals' => 0,
-					'number_max_length' => 2
-				)
-			),
-			self::$type . '_marker' => array(
-				'label' => __( 'Map Custom Marker', 'pods' ),
-				'depends-on' => array( self::$type . '_display_type' => array( 'map', 'address-map' ) ),
-				'default' => pods_v( self::$type . '_marker', self::$component_options ),
-				'type' => 'file',
-				'options' => array(
-					'file_uploader' => 'plupload',
-					'file_edit_title' => 0,
-					'file_restrict_filesize' => '1MB',
-					'file_type' => 'images',
-					'file_add_button' => 'Upload Marker Icon'
-				)
-			)
-		);
+			);
 
-		return $options;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @since 1.0
-	 */
-	public function schema ( $options = null ) {
-		$schema = 'LONGTEXT';
-
-		return $schema;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @since 1.0
-	 */
-	public function display ( $value = null, $name = null, $options = null, $pod = null, $id = null ) {
-		$display_type = pods_v( self::$type . '_display_type', $options );
-		$view = self::$file_path . 'ui/front/address.php';
-		if ( 'lat-long' == $display_type ) {
-			$view = self::$file_path . 'ui/front/lat-long.php';
-		}
-		elseif ( 'address-map' == $display_type ) {
-			$view = self::$file_path . 'ui/front/address-map.php';
-
-		}
-		elseif ( 'map' == $display_type ) {
-			$view = self::$file_path . 'ui/front/map.php';
-		}
-		$value = pods_view( $view, compact( array_keys( get_defined_vars() ) ), false, 'cache', true );
-
-		return $value;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @since 1.0
-	 */
-	public function input ( $name, $value = null, $options = null, $pod = null, $id = null ) {
-		$form_field_type = Pods_Form::$field_type;
-
-		$field = PODS_DIR . 'ui/fields/text.php';
-		if ( 'address' == pods_v( self::$type . '_type', $options ) ) {
-			$field = self::$file_path . 'ui/fields/address.php';
-		}
-		elseif ( 'lat-long' == pods_v( self::$type . '_type', $options ) ) {
-			$field = self::$file_path . 'ui/fields/lat-long.php';
+			return $options;
 		}
 
-		pods_view( $field, compact( array_keys( get_defined_vars() ) ) );
+		/**
+		 * {@inheritDoc}
+		 *
+		 * @since 1.0
+		 */
+		public function schema( $options = null ) {
+			$schema = 'LONGTEXT';
 
-		if ( 1 == pods_v( self::$type . '_show_map_input', $options ) ) {
-
-			pods_view( self::$file_path . 'ui/fields/map.php', compact( array_keys( get_defined_vars() ) ) );
+			return $schema;
 		}
-	}
 
-	/**
-	 * {@inheritDoc}
-	 * @since 1.0
-	 */
-	public function validate ( $value, $name = null, $options = null, $fields = null, $pod = null, $id = null, $params = null ) {
-		// TODO: Validate based on address type ( lat / lon, address fields)
-		$errors = array();
+		/**
+		 * {@inheritDoc}
+		 *
+		 * @since 1.0
+		 */
+		public function display( $value = null, $name = null, $options = null, $pod = null, $id = null ) {
+			$display_type = pods_v( self::$type . '_display_type', $options );
+			$view         = self::$file_path . 'ui/front/address.php';
+			if ( 'lat-long' == $display_type ) {
+				$view = self::$file_path . 'ui/front/lat-long.php';
+			} elseif ( 'address-map' == $display_type ) {
+				$view = self::$file_path . 'ui/front/address-map.php';
 
-		if ( 1 == pods_v( 'required', $options ) )
-			$errors[ ] = __( 'This field is required.', 'pods' );
+			} elseif ( 'map' == $display_type ) {
+				$view = self::$file_path . 'ui/front/map.php';
+			}
+			$value = pods_view( $view, compact( array_keys( get_defined_vars() ) ), false, 'cache', true );
 
-		if ( !empty( $errors ) )
-			return $errors;
+			return $value;
+		}
 
-		return true;
-	}
+		/**
+		 * {@inheritDoc}
+		 *
+		 * @since 1.0
+		 */
+		public function input( $name, $value = null, $options = null, $pod = null, $id = null ) {
+			$form_field_type = Pods_Form::$field_type;
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @since 1.0
-	 */
-	public function pre_save ( $value, $id = null, $name = null, $options = null, $fields = null, $pod = null, $params = null ) {
+			$field = PODS_DIR . 'ui/fields/text.php';
+			if ( 'address' == pods_v( self::$type . '_type', $options ) ) {
+				$field = self::$file_path . 'ui/fields/address.php';
+			} elseif ( 'lat-long' == pods_v( self::$type . '_type', $options ) ) {
+				$field = self::$file_path . 'ui/fields/lat-long.php';
+			}
 
-		return $value;
-	}
+			pods_view( $field, compact( array_keys( get_defined_vars() ) ) );
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @since 1.0
-	 */
-	public function ui ( $id, $value, $name = null, $options = null, $fields = null, $pod = null ) {
+			if ( 1 == pods_v( self::$type . '_show_map_input', $options ) ) {
 
-		return $value;
-	}
+				pods_view( self::$file_path . 'ui/fields/map.php', compact( array_keys( get_defined_vars() ) ) );
+			}
+		}
 
-	/**
-	 * Output a map
-	 *
-	 * @param array $args Map options
-	 *
-	 * @return string Map output
-	 * @since 1.0
-	 */
-	public static function map ( $args ) {
-		$defaults = array(
-			'address' => '',
-			'lat' => '',
-			'long' => '',
+		/**
+		 * {@inheritDoc}
+		 * @since 1.0
+		 */
+		public function validate( $value, $name = null, $options = null, $fields = null, $pod = null, $id = null, $params = null ) {
+			// TODO: Validate based on address type ( lat / lon, address fields)
+			$errors = array();
 
-			'width' => '',
-			'height' => '',
-			'type' => '',
-			'zoom' => '',
-			'style' => '',
-			'marker' => '',
+			if ( 1 == pods_v( 'required', $options ) ) {
+				$errors[ ] = __( 'This field is required.', 'pods' );
+			}
 
-			'expires' => ( 60 * 60 * 24 ),
-			'cache_type' => 'cache'
-		);
+			if ( ! empty( $errors ) ) {
+				return $errors;
+			}
 
-		$args = array_merge( (array) $args, $defaults );
+			return true;
+		}
 
-		$lat_long = array(
-			'lat' => $args[ 'lat' ],
-			'long' => $args[ 'long' ]
-		);
+		/**
+		 * {@inheritDoc}
+		 *
+		 * @since 1.0
+		 */
+		public function pre_save( $value, $id = null, $name = null, $options = null, $fields = null, $pod = null, $params = null ) {
 
-		if ( empty( $lat_long[ 'lat' ] ) && empty( $lat_long[ 'long' ] ) ) {
-			if ( !empty( $args[ 'address' ] ) ) {
-				$address_data = self::geocode_address( $args[ 'address' ] );
+			return $value;
+		}
 
-				if ( !empty( $address_data ) ) {
-					$lat_long[ 'lat' ] = $address_data[ 'lat' ];
-					$lat_long[ 'long' ] = $address_data[ 'long' ];
-				}
-				else
+		/**
+		 * {@inheritDoc}
+		 *
+		 * @since 1.0
+		 */
+		public function ui( $id, $value, $name = null, $options = null, $fields = null, $pod = null ) {
+
+			return $value;
+		}
+
+		/**
+		 * Output a map
+		 *
+		 * @param array $args Map options
+		 *
+		 * @return string Map output
+		 * @since 1.0
+		 */
+		public static function map( $args ) {
+			$defaults = array(
+				'address'    => '',
+				'lat'        => '',
+				'long'       => '',
+				'width'      => '',
+				'height'     => '',
+				'type'       => '',
+				'zoom'       => '',
+				'style'      => '',
+				'marker'     => '',
+				'expires'    => ( 60 * 60 * 24 ),
+				'cache_type' => 'cache'
+			);
+
+			$args = array_merge( (array) $args, $defaults );
+
+			$lat_long = array(
+				'lat'  => $args[ 'lat' ],
+				'long' => $args[ 'long' ]
+			);
+
+			if ( empty( $lat_long[ 'lat' ] ) && empty( $lat_long[ 'long' ] ) ) {
+				if ( ! empty( $args[ 'address' ] ) ) {
+					$address_data = self::geocode_address( $args[ 'address' ] );
+
+					if ( ! empty( $address_data ) ) {
+						$lat_long[ 'lat' ]  = $address_data[ 'lat' ];
+						$lat_long[ 'long' ] = $address_data[ 'long' ];
+					} else {
+						return '';
+					}
+				} else {
 					return '';
+				}
 			}
-			else
-				return '';
+
+			return pods_view( self::$file_path . 'ui/front/map.php', compact( array_keys( get_defined_vars() ) ), $args[ 'expires' ], $args[ 'cache_type' ], true );
 		}
 
-		return pods_view( self::$file_path . 'ui/front/map.php', compact( array_keys( get_defined_vars() ) ), $args[ 'expires' ], $args[ 'cache_type' ], true );
-	}
-
-	/**
-	 * Geocode a specific address into Latitude and Longitude values
-	 *
-	 * @param string|array $address Address
-	 *
-	 * @return array Latitude, Longitude, and Formatted Address values
-	 *
-	 * @public
-	 * @since 1.0
-	 */
-	public static function geocode_address ( $address ) {
-		$address_data = false;
-
-		if ( !empty( $address ) ) {
-			if ( is_array( $address ) )
-				$address = implode( ', ', $address );
-
-			$address_data = pods_cache_get( 'geocode_get_' . md5( $address ), 'pods-component-address-maps' );
-
-			if ( !empty( $address_data ) && is_array( $address_data ) )
-				return $address_data;
-
+		/**
+		 * Geocode a specific address into Latitude and Longitude values
+		 *
+		 * @param string|array $address Address
+		 *
+		 * @return array Latitude, Longitude, and Formatted Address values
+		 *
+		 * @public
+		 * @since 1.0
+		 */
+		public static function geocode_address( $address ) {
 			$address_data = false;
 
-			if ( 'google' == self::$component_options[ 'provider' ] ) {
-				$args = array(
-					'address' => $address,
-					'sensor' => 'false'
-				);
+			if ( ! empty( $address ) ) {
+				if ( is_array( $address ) ) {
+					$address = implode( ', ', $address );
+				}
 
-				if ( !empty( self::$component_options[ 'google_client_id' ] ) )
-					$args[ 'client' ] = self::$component_options[ 'google_client_id' ];
+				$address_data = pods_cache_get( 'geocode_get_' . md5( $address ), 'pods-component-address-maps' );
 
-				$response = wp_remote_get( 'http://maps.google.com/maps/api/geocode/json', array( 'body' => $args ) );
+				if ( ! empty( $address_data ) && is_array( $address_data ) ) {
+					return $address_data;
+				}
 
-				if ( !is_wp_error( $response ) ) {
-					$json = wp_remote_retrieve_body( $response );
+				$address_data = false;
 
-					if ( !empty( $json ) ) {
-						$json = @json_decode( $json );
+				if ( 'google' == self::$component_options[ 'provider' ] ) {
+					$args = array(
+						'address' => $address,
+						'sensor'  => 'false'
+					);
 
-						if ( is_object( $json ) && isset( $json->results ) && !empty( $json->results ) )
-							$address_data = self::parse_google_address( $json->results[ 0 ] );
+					if ( ! empty( self::$component_options[ 'google_client_id' ] ) ) {
+						$args[ 'client' ] = self::$component_options[ 'google_client_id' ];
+					}
+
+					$response = wp_remote_get( 'http://maps.google.com/maps/api/geocode/json', array( 'body' => $args ) );
+
+					if ( ! is_wp_error( $response ) ) {
+						$json = wp_remote_retrieve_body( $response );
+
+						if ( ! empty( $json ) ) {
+							$json = @json_decode( $json );
+
+							if ( is_object( $json ) && isset( $json->results ) && ! empty( $json->results ) ) {
+								$address_data = self::parse_google_address( $json->results[ 0 ] );
+							}
+						}
+					}
+				}
+
+				if ( ! empty( $address_data ) ) {
+					pods_cache_set( 'geocode_get_' . md5( $address ), $address_data, 'pods-component-address-maps', ( 60 * 60 * 24 ) );
+
+					if ( ! empty( $address_data[ 'formatted' ] ) && $address != $address_data[ 'formatted' ] ) {
+						pods_cache_set( 'geocode_get_' . md5( $address_data[ 'formatted' ] ), $address_data, 'pods-component-address-maps', ( 60 * 60 * 24 ) );
 					}
 				}
 			}
 
-			if ( !empty( $address_data ) ) {
-				pods_cache_set( 'geocode_get_' . md5( $address ), $address_data, 'pods-component-address-maps', ( 60 * 60 * 24 ) );
-
-				if ( !empty( $address_data[ 'formatted' ] ) && $address != $address_data[ 'formatted' ] )
-					pods_cache_set( 'geocode_get_' . md5( $address_data[ 'formatted' ] ), $address_data, 'pods-component-address-maps', ( 60 * 60 * 24 ) );
-			}
+			return $address_data;
 		}
 
-		return $address_data;
-	}
-
-	/**
-	 * Get an address from a lat / long
-	 *
-	 * @param string|array $lat_long Lat / long numbers
-	 *
-	 * @return string Address information
-	 *
-	 * @public
-	 * @static
-	 * @since 1.0
-	 */
-	public static function geocode_lat_long ( $lat_long ) {
-		$address_data = false;
-
-		if ( !empty( $lat_long ) ) {
-			if ( is_array( $lat_long ) )
-				$lat_long = implode( ', ', $lat_long );
-
-			$address_data = pods_cache_get( 'geocode_address_get_' . md5( $lat_long ), 'pods-component-address-maps' );
-
-			if ( !empty( $address_data ) && is_array( $address_data ) )
-				return $address_data;
-
+		/**
+		 * Get an address from a lat / long
+		 *
+		 * @param string|array $lat_long Lat / long numbers
+		 *
+		 * @return string Address information
+		 *
+		 * @public
+		 * @static
+		 * @since 1.0
+		 */
+		public static function geocode_lat_long( $lat_long ) {
 			$address_data = false;
 
-			if ( 'google' == self::$component_options[ 'provider' ] ) {
-				$args = array(
-					'latlng' => $lat_long,
-					'sensor' => 'false'
-				);
+			if ( ! empty( $lat_long ) ) {
+				if ( is_array( $lat_long ) ) {
+					$lat_long = implode( ', ', $lat_long );
+				}
 
-				if ( !empty( self::$component_options[ 'google_client_id' ] ) )
-					$args[ 'client' ] = self::$component_options[ 'google_client_id' ];
+				$address_data = pods_cache_get( 'geocode_address_get_' . md5( $lat_long ), 'pods-component-address-maps' );
 
-				$response = wp_remote_get( 'http://maps.google.com/maps/api/geocode/json', array( 'body' => $args ) );
+				if ( ! empty( $address_data ) && is_array( $address_data ) ) {
+					return $address_data;
+				}
 
-				if ( !is_wp_error( $response ) ) {
-					$json = wp_remote_retrieve_body( $response );
+				$address_data = false;
 
-					if ( !empty( $json ) ) {
-						$json = @json_decode( $json );
+				if ( 'google' == self::$component_options[ 'provider' ] ) {
+					$args = array(
+						'latlng' => $lat_long,
+						'sensor' => 'false'
+					);
 
-						if ( is_object( $json ) && isset( $json->results ) && !empty( $json->results ) )
-							$address_data = self::parse_google_address( $json->results[ 0 ] );
+					if ( ! empty( self::$component_options[ 'google_client_id' ] ) ) {
+						$args[ 'client' ] = self::$component_options[ 'google_client_id' ];
+					}
+
+					$response = wp_remote_get( 'http://maps.google.com/maps/api/geocode/json', array( 'body' => $args ) );
+
+					if ( ! is_wp_error( $response ) ) {
+						$json = wp_remote_retrieve_body( $response );
+
+						if ( ! empty( $json ) ) {
+							$json = @json_decode( $json );
+
+							if ( is_object( $json ) && isset( $json->results ) && ! empty( $json->results ) ) {
+								$address_data = self::parse_google_address( $json->results[ 0 ] );
+							}
+						}
+					}
+				}
+
+				if ( ! empty( $address_data ) ) {
+					pods_cache_set( 'geocode_address_get_' . $lat_long, $address_data, 'pods-component-address-maps', ( 60 * 60 * 24 ) );
+
+					if ( ! empty( $address_data[ 'lat' ] ) && ! empty( $address_data[ 'long' ] ) && $lat_long != ( $address_data[ 'lat' ] . ',' . $address_data[ 'long' ] ) ) {
+						pods_cache_set( 'geocode_address_get_' . md5( $address_data[ 'formatted' ] ), $address_data, 'pods-component-address-maps', ( 60 * 60 * 24 ) );
 					}
 				}
 			}
 
-			if ( !empty( $address_data ) ) {
-				pods_cache_set( 'geocode_address_get_' . $lat_long, $address_data, 'pods-component-address-maps', ( 60 * 60 * 24 ) );
+			return $address_data;
+		}
 
-				if ( !empty( $address_data[ 'lat' ] ) && !empty( $address_data[ 'long' ] ) && $lat_long != ( $address_data[ 'lat' ] . ',' . $address_data[ 'long' ] ) )
-					pods_cache_set( 'geocode_address_get_' . md5( $address_data[ 'formatted' ] ), $address_data, 'pods-component-address-maps', ( 60 * 60 * 24 ) );
+		public static function parse_google_address( $result ) {
+			if ( ! is_object( $result ) || ! isset( $result->address_components ) ) {
+				return false;
 			}
+
+			$components = $result[ 'address_components' ];
+
+			$address = array(
+				'address_1'      => '',
+				'address_2'      => '',
+				'city'           => '',
+				'state_province' => '',
+				'postal_code'    => '',
+				'country'        => '',
+				'formatted'      => '',
+				'lat'            => '',
+				'long'           => ''
+			);
+
+			foreach ( $components as $component ) {
+				if ( in_array( 'street_number', $component->types ) ) {
+					$address[ 'address_1' ] = $component->long_name;
+				} elseif ( in_array( 'route', $component->types ) ) {
+					$address[ 'address_1' ] = trim( $address[ 'address_1' ] . ' ' . $component->short_name );
+				} elseif ( in_array( 'subpremise', $component->types ) ) {
+					$address[ 'address_2' ] = '#' . $component->long_name;
+				} elseif ( in_array( 'administrative_area_level_2', $component->types ) ) {
+					$address[ 'city' ] = $component->long_name;
+				} elseif ( in_array( 'administrative_area_level_1', $component->types ) ) {
+					$address[ 'state_province' ] = $component->long_name;
+				} elseif ( in_array( 'postal_code', $component->types ) ) {
+					$address[ 'postal_code' ] = $component->long_name;
+				} elseif ( in_array( 'country', $component->types ) ) {
+					$address[ 'country' ] = $component->long_name;
+				}
+			}
+
+			if ( isset( $result->formatted_address ) ) {
+				$address[ 'formatted' ] = $result->formatted_address;
+			}
+
+			if ( isset( $result->geometry ) && isset( $result->geometry->location ) ) {
+				$address[ 'lat' ]  = $result->geometry->location->lat;
+				$address[ 'long' ] = $result->geometry->location->lng;
+			}
+
+			return $address;
 		}
 
-		return $address_data;
 	}
-
-	public static function parse_google_address ( $result ) {
-		if ( !is_object( $result ) || !isset( $result->address_components ) )
-			return false;
-
-		$components = $result[ 'address_components' ];
-
-		$address = array(
-			'address_1' => '',
-			'address_2' => '',
-			'city' => '',
-			'state_province' => '',
-			'postal_code' => '',
-			'country' => '',
-			'formatted' => '',
-			'lat' => '',
-			'long' => ''
-		);
-
-		foreach ( $components as $component ) {
-			if ( in_array( 'street_number', $component->types ) )
-				$address[ 'address_1' ] = $component->long_name;
-			elseif ( in_array( 'route', $component->types ) )
-				$address[ 'address_1' ] = trim( $address[ 'address_1' ] . ' ' . $component->short_name );
-			elseif ( in_array( 'subpremise', $component->types ) )
-				$address[ 'address_2' ] = '#' . $component->long_name;
-			elseif ( in_array( 'administrative_area_level_2', $component->types ) )
-				$address[ 'city' ] = $component->long_name;
-			elseif ( in_array( 'administrative_area_level_1', $component->types ) )
-				$address[ 'state_province' ] = $component->long_name;
-			elseif ( in_array( 'postal_code', $component->types ) )
-				$address[ 'postal_code' ] = $component->long_name;
-			elseif ( in_array( 'country', $component->types ) )
-				$address[ 'country' ] = $component->long_name;
-		}
-
-		if ( isset( $result->formatted_address ) )
-			$address[ 'formatted' ] = $result->formatted_address;
-
-		if ( isset( $result->geometry ) && isset( $result->geometry->location ) ) {
-			$address[ 'lat' ] = $result->geometry->location->lat;
-			$address[ 'long' ] = $result->geometry->location->lng;
-		}
-
-		return $address;
-	}
-
-}

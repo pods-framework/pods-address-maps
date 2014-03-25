@@ -1,9 +1,9 @@
 <?php
-$attributes = array();
-$attributes[ 'type' ] = 'text';
-$attributes[ 'value' ] = $value;
-$attributes[ 'tabindex' ] = 2;
-$attributes = Pods_Form::merge_attributes( $attributes, $name, $form_field_type, $options );
+	$attributes               = array();
+	$attributes[ 'type' ]     = 'text';
+	$attributes[ 'value' ]    = $value;
+	$attributes[ 'tabindex' ] = 2;
+	$attributes               = Pods_Form::merge_attributes( $attributes, $name, $form_field_type, $options );
 ?>
 <?php if ( pods_v( $form_field_type . '_address_line_1', $options ) ): ?>
 	<?php echo Pods_Form::label( $name . '[address][line_1]', 'Address Line 1' ) ?>
@@ -40,4 +40,4 @@ $attributes = Pods_Form::merge_attributes( $attributes, $name, $form_field_type,
 <?php endif; ?>
 
 <?php
-Pods_Form::regex( $form_field_type, $options );
+	Pods_Form::regex( $form_field_type, $options );
