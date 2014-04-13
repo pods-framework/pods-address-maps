@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Pods_Field_AddressMap
+ */
 class Pods_Field_AddressMap extends
 	Pods_Field {
 
@@ -187,7 +190,10 @@ class Pods_Field_AddressMap extends
 			self::$type . '_zoom'                  => array(
 				'label'      => __( 'Map Zoom Level', 'pods' ),
 				'depends-on' => array( self::$type . '_display_type' => array( 'map', 'address-map' ) ),
-				'help'       => array( __( 'Google Maps has documentation on the different zoom levels you can use.', 'pods' ), 'https://developers.google.com/maps/documentation/staticmaps/#Zoomlevels' ),
+				'help'       => array(
+					__( 'Google Maps has documentation on the different zoom levels you can use.', 'pods' ),
+					'https://developers.google.com/maps/documentation/staticmaps/#Zoomlevels'
+				),
 				'default'    => pods_v( self::$type . '_zoom', self::$component_options, 12, true ),
 				'type'       => 'number',
 				'options'    => array(
