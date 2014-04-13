@@ -11,7 +11,7 @@
  *
  * Category: Field Types
  *
- * Class: PodsComponent_AddressMaps
+ * Class: Pods_Component_AddressMaps
  */
 class Pods_Component_AddressMaps extends Pods_Component {
 
