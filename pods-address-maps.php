@@ -27,16 +27,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 add_action( 'pods_components_get', 'pods_component_address_maps_init' );
 add_action( 'pods_components_load', 'pods_component_address_maps_load' );
 
+/**
+ *
+ */
 function pods_component_address_maps_init() {
+
 	register_activation_hook( __FILE__, 'pods_component_address_maps_reset' );
 	register_deactivation_hook( __FILE__, 'pods_component_address_maps_reset' );
 
 	pods_component_address_maps_load();
 
 	add_filter( 'pods_components_register', array( 'Pods_Component_AddressMaps', 'component_register' ) );
+
 }
 
+/**
+ *
+ */
 function pods_component_address_maps_load() {
+
 	$component_path = plugin_dir_path( __FILE__ );
 	$component_file = $component_path . '/classes/Pods/Component/AddressMaps.php';
 
@@ -45,11 +54,17 @@ function pods_component_address_maps_load() {
 
 	// Only load as needed
 	pods_register_field_type( 'addressmap', $component_path . '/classes/Pods/Field/AddressMap.php' );
+
 }
 
+/**
+ *
+ */
 function pods_component_address_maps_reset() {
+
 	delete_transient( 'pods_components' );
 	delete_transient( 'pods_field_types' );
+
 }
 
 /**
@@ -58,7 +73,9 @@ function pods_component_address_maps_reset() {
  * @return mixed
  */
 function pods_map( $args ) {
+
 	return PodsForm::field_method( 'address_map', 'map', $args );
+
 }
 
 add_shortcode( 'pods-map', 'pods_map' );

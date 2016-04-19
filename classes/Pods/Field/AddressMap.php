@@ -1,10 +1,8 @@
 <?php
-
 /**
  * Class Pods_Field_AddressMap
  */
-class Pods_Field_AddressMap extends
-	Pods_Field {
+class Pods_Field_AddressMap extends PodsField {
 
 	/**
 	 * Field Type Group
@@ -60,6 +58,7 @@ class Pods_Field_AddressMap extends
 	 * @since 1.0
 	 */
 	public function __construct() {
+
 		if ( class_exists( 'Pods_Component_AddressMaps' ) && ! empty( Pods_Component_AddressMaps::$options ) ) {
 			self::$file_path = Pods_Component_AddressMaps::$component_path;
 
@@ -69,6 +68,7 @@ class Pods_Field_AddressMap extends
 			wp_register_script( 'pods-component-address-maps', plugins_url( '/ui/js/pods-address-maps.js', __FILE__ ), array(), '1.0' );
 			wp_register_script( 'googlemaps', 'http://maps.googleapis.com/maps/api/js?sensor=false', false, '3' );
 		}
+
 	}
 
 	/**
@@ -77,6 +77,7 @@ class Pods_Field_AddressMap extends
 	 * @since 1.0
 	 */
 	public function options() {
+
 		$options = array(
 			self::$type . '_type'                  => array(
 				'label'      => __( 'Address Type', 'pods' ),
@@ -217,6 +218,7 @@ class Pods_Field_AddressMap extends
 		);
 
 		return $options;
+
 	}
 
 	/**
@@ -225,9 +227,11 @@ class Pods_Field_AddressMap extends
 	 * @since 1.0
 	 */
 	public function schema( $options = null ) {
+
 		$schema = 'LONGTEXT';
 
 		return $schema;
+
 	}
 
 	/**
@@ -236,6 +240,7 @@ class Pods_Field_AddressMap extends
 	 * @since 1.0
 	 */
 	public function display( $value = null, $name = null, $options = null, $pod = null, $id = null ) {
+
 		$display_type = pods_v( self::$type . '_display_type', $options );
 		$view         = self::$file_path . 'ui/front/address.php';
 		if ( 'lat-long' == $display_type ) {
@@ -249,6 +254,7 @@ class Pods_Field_AddressMap extends
 		$value = pods_view( $view, compact( array_keys( get_defined_vars() ) ), false, 'cache', true );
 
 		return $value;
+
 	}
 
 	/**
@@ -257,7 +263,8 @@ class Pods_Field_AddressMap extends
 	 * @since 1.0
 	 */
 	public function input( $name, $value = null, $options = null, $pod = null, $id = null ) {
-		$form_field_type = Pods_Form::$field_type;
+
+		$form_field_type = PodsForm::$field_type;
 
 		$field = PODS_DIR . 'ui/fields/text.php';
 		if ( 'address' == pods_v( self::$type . '_type', $options ) ) {
@@ -269,9 +276,9 @@ class Pods_Field_AddressMap extends
 		pods_view( $field, compact( array_keys( get_defined_vars() ) ) );
 
 		if ( 1 == pods_v( self::$type . '_show_map_input', $options ) ) {
-
 			pods_view( self::$file_path . 'ui/fields/map.php', compact( array_keys( get_defined_vars() ) ) );
 		}
+
 	}
 
 	/**
@@ -279,6 +286,7 @@ class Pods_Field_AddressMap extends
 	 * @since 1.0
 	 */
 	public function validate( $value, $name = null, $options = null, $fields = null, $pod = null, $id = null, $params = null ) {
+
 		// TODO: Validate based on address type ( lat / lon, address fields)
 		$errors = array();
 
@@ -291,6 +299,7 @@ class Pods_Field_AddressMap extends
 		}
 
 		return true;
+
 	}
 
 	/**
@@ -301,6 +310,7 @@ class Pods_Field_AddressMap extends
 	public function pre_save( $value, $id = null, $name = null, $options = null, $fields = null, $pod = null, $params = null ) {
 
 		return $value;
+
 	}
 
 	/**
@@ -311,6 +321,7 @@ class Pods_Field_AddressMap extends
 	public function ui( $id, $value, $name = null, $options = null, $fields = null, $pod = null ) {
 
 		return $value;
+
 	}
 
 	/**
@@ -322,6 +333,7 @@ class Pods_Field_AddressMap extends
 	 * @since 1.0
 	 */
 	public static function map( $args ) {
+
 		$defaults = array(
 			'address'    => '',
 			'lat'        => '',
@@ -359,6 +371,52 @@ class Pods_Field_AddressMap extends
 		}
 
 		return pods_view( self::$file_path . 'ui/front/map.php', compact( array_keys( get_defined_vars() ) ), $args['expires'], $args['cache_type'], true );
+
+	}
+
+	/**
+	 * Geocode a specific address into Latitude and Longitude values
+	 *
+	 * @param string|array $address Address
+	 *
+	 * @return array Latitude, Longitude, and Formatted Address values
+	 *
+	 * @public
+	 * @since 1.0
+	 */
+	public function geocode_address( $address ) {
+
+		return array();
+
+	}
+
+	/**
+	 * Get an address from a lat / long
+	 *
+	 * @param string|array $lat_long Lat / long numbers
+	 *
+	 * @return string Address information
+	 *
+	 * @public
+	 * @static
+	 * @since 1.0
+	 */
+	public function geocode_lat_long( $lat_long ) {
+
+		return '';
+
+	}
+
+	/**
+	 * @param $result
+	 *
+	 * @return array|bool
+	 * @since 1.0
+	 */
+	public function parse_address( $result ) {
+
+		return false;
+
 	}
 
 }

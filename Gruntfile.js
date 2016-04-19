@@ -1,33 +1,37 @@
-module.exports = function(grunt) {
-	grunt.initConfig({
-		pkg : grunt.file.readJSON('package.json'),
-		sass : {
+module.exports = function ( grunt ) {
+	grunt.initConfig( {
+						  pkg : grunt.file.readJSON( 'package.json' ), sass : {
 			addressMaps : {
-				options : {
+				options  : {
 					style : 'compressed'
-				},
-				files : {
+				}, files : {
 					'ui/css/pods-address-maps.css' : 'ui/css/sass/**/*.scss'
 				}
 			}
-		},
-		concat : {
+		}, concat             : {
 			addressMaps : {
-				src : 'ui/js/src/**/*.js',
-				dest : 'ui/js/pods-address-maps.js'
+				src : 'ui/js/src/**/*.js', dest : 'ui/js/pods-address-maps.js'
 			}
-		},
-		watch : {
+		}, watch              : {
 			sass : {
-				files : ['ui/css/sass/**/*.scss','ui/js/src/**/*.js'],
-				tasks : ["sass","concat"]
+				files : [
+					'ui/css/sass/**/*.scss',
+					'ui/js/src/**/*.js'
+				],
+				tasks : [
+					"sass",
+					"concat"
+				]
 			}
 		}
 
-	});
-	grunt.loadNpmTasks('grunt-contrib-sass');
-	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-watch');
+					  } );
+	grunt.loadNpmTasks( 'grunt-contrib-sass' );
+	grunt.loadNpmTasks( 'grunt-contrib-concat' );
+	grunt.loadNpmTasks( 'grunt-contrib-watch' );
 
-	grunt.registerTask('default',['sass','concat']);
+	grunt.registerTask( 'default', [
+		'sass',
+		'concat'
+	] );
 }

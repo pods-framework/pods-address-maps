@@ -13,7 +13,7 @@
  *
  * Class: Pods_Component_AddressMaps
  */
-class Pods_Component_AddressMaps extends Pods_Component {
+class Pods_Component_AddressMaps extends PodsComponent {
 
 	static $component_path;
 
@@ -21,27 +21,15 @@ class Pods_Component_AddressMaps extends Pods_Component {
 
 	static $options;
 
-
-	/**
-	 * @param Pods_Service_Container $container
-	 */
-	public function register_services( Pods_Service_Container $container ) {
-		$google_definition = new Pods_Service_Definition( 'Pods_Service_AddressMap_Google' );
-		$google_definition->parameter( 0, self::$options['google_maps_id'] );
-		$container->set( 'pods.addressmap.google', $google_definition );
-
-		$bing_definition = new Pods_Service_Definition( 'Pods_Service_AddressMap_Bing' );
-		$bing_definition->parameter( 0, self::$options['api_key'] );
-		$container->set( 'pods.addressmap.bing', $bing_definition );
-	}
-
 	/**
 	 * Enqueue styles
 	 *
 	 * @since 1.0
 	 */
 	public function admin_assets() {
+
 		wp_enqueue_style( 'pods-admin' );
+
 	}
 
 	/**
@@ -53,9 +41,11 @@ class Pods_Component_AddressMaps extends Pods_Component {
 	 * @since 1.0
 	 */
 	public static function component_register( $components ) {
+
 		$components[] = array( 'File' => realpath( self::$component_file ) );
 
 		return $components;
+
 	}
 
 	/**
@@ -64,6 +54,7 @@ class Pods_Component_AddressMaps extends Pods_Component {
 	 * @since 1.0
 	 */
 	public function options( $settings ) {
+
 		$options = array(
 			'provider'                => array(
 				'label'      => __( 'Maps Provider', 'pods' ),
@@ -136,6 +127,7 @@ class Pods_Component_AddressMaps extends Pods_Component {
 		);
 
 		return $options;
+
 	}
 
 	/**
@@ -144,6 +136,8 @@ class Pods_Component_AddressMaps extends Pods_Component {
 	 * @since 1.0
 	 */
 	public function handler( $options ) {
+
 		self::$options = $options;
+
 	}
 }

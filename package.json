@@ -1,25 +1,25 @@
 {
-	"name" : "Pods Address/Maps Plugin",
-	"version" : "1.0.0",
-	"description" : "Pods plugin for rendering addresses and maps",
-	"main" : "index.js",
-	"scripts" : {
-		"test" : "echo \"Error: no test specified\" && exit 1"
-	},
-	"repository" : {
-		"type" : "git",
-		"url" : "git://github.com/pods-framework/pods-address-maps.git"
-	},
-	"author" : "Pods Framework",
-	"license" : "GPL",
-	"bugs" : {
-		"url" : "https://github.com/pods-framework/pods-address-maps/issues"
-	},
-	"devDependencies" : {
-		"grunt" : "~0.4.2",
-		"grunt-cli" : "~0.1.11",
-		"grunt-contrib-sass" : "~0.6.0",
-		"grunt-contrib-watch" : "~0.5.3",
-		"grunt-contrib-concat" : "~0.3.0"
-	}
+  "name": "Pods Address/Maps Plugin",
+  "version": "1.0.0",
+  "description": "Pods plugin for rendering addresses and maps",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pods-framework/pods-address-maps.git"
+  },
+  "author": "Pods Framework",
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/pods-framework/pods-address-maps/issues"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-cli": "~0.1.11",
+    "grunt-contrib-sass": "~0.6.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-concat": "~0.3.0"
+  }
 }
