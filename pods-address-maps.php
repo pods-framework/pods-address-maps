@@ -38,9 +38,6 @@ function pods_component_address_maps_init() {
 
 function pods_component_address_maps_load() {
 	$component_path = plugin_dir_path( __FILE__ );
-	$classLoader    = new Pods_ClassLoader();
-	$classLoader->addDirectory( $component_path . '/classes' );
-	$classLoader->register();
 	$component_file = $component_path . '/classes/Pods/Component/AddressMaps.php';
 
 	Pods_Component_AddressMaps::$component_path = $component_path;
@@ -61,7 +58,7 @@ function pods_component_address_maps_reset() {
  * @return mixed
  */
 function pods_map( $args ) {
-	return Pods_Form::field_method( 'address_map', 'map', $args );
+	return PodsForm::field_method( 'address_map', 'map', $args );
 }
 
 add_shortcode( 'pods-map', 'pods_map' );
