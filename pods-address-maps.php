@@ -48,6 +48,9 @@ function pods_component_address_maps_load() {
 
 	$component_path = plugin_dir_path( __FILE__ );
 	$component_file = $component_path . '/classes/Pods/Component/AddressMaps.php';
+	
+	// Load AddressMaps Class file
+	include_once($component_file);
 
 	Pods_Component_AddressMaps::$component_path = $component_path;
 	Pods_Component_AddressMaps::$component_file = $component_file;
